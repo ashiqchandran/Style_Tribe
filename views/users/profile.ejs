@@ -1,0 +1,351 @@
+<%- include("../../views/partials/user/header") %>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="/style/user/profile.css">
+<style>/* Sidebar Wrapper */
+    /* Desktop Styles */
+   .ultra-sidebar-container {
+       width: 18vw;
+       min-width: 250px;
+       background-color: #f8f9fa;
+       border-right: 2px solid #e0e0e0;
+       padding: 20px;
+       min-height: 100vh;
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   }
+   
+   .ultra-sidebar-header h2 {
+       font-size: 22px;
+       margin-bottom: 20px;
+       color: #333;
+       display: flex;
+       align-items: center;
+       gap: 10px;
+   }
+   
+   .ultra-sidebar-menu a {
+       display: flex;
+       align-items: center;
+       gap: 10px;
+       padding: 12px 15px;
+       margin-bottom: 10px;
+       color: #555;
+       text-decoration: none;
+       background-color: #fff;
+       border-radius: 6px;
+       transition: all 0.3s ease;
+       font-size: 16px;
+   }
+   
+   .ultra-sidebar-menu a:hover,
+   .ultra-sidebar-menu a.ultra-active {
+       background-color: #007bff;
+       color: #fff;
+   }
+   
+   .ultra-sidebar-menu a i {
+       font-size: 18px;
+   }
+   
+   .ultra-sidebar-menu .ultra-logout-btn {
+       color: #dc3545;
+   }
+   
+   .ultra-sidebar-menu .ultra-logout-btn:hover {
+       background-color: #dc3545;
+       color: white;
+   }
+   
+   /* Tablet Screens */
+   @media (max-width: 991px) {
+       .ultra-sidebar-container {
+           width: 100%;
+           min-width: 100%;
+           border-right: none;
+           border-bottom: 1px solid #ddd;
+           padding: 15px;
+           display: flex;
+           flex-direction: row;
+           overflow-x: auto;
+           white-space: nowrap;
+           gap: 10px;
+       }
+   
+       .ultra-sidebar-header {
+           display: none;
+       }
+   
+       .ultra-sidebar-menu {
+           display: flex;
+           flex-direction: row;
+           gap: 10px;
+           width: 100%;
+       }
+   
+       .ultra-sidebar-menu a {
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+           font-size: 13px;
+           padding: 8px;
+           min-width: 80px;
+           border-radius: 10px;
+       }
+   
+       .ultra-sidebar-menu a i {
+           font-size: 18px;
+       }
+   }
+   
+   /* Small Mobile Screens */
+   @media (max-width: 576px) {
+       .ultra-sidebar-menu a {
+           padding: 6px;
+           min-width: 65px;
+           font-size: 12px;
+       }
+   
+       .ultra-sidebar-menu a i {
+           font-size: 16px;
+       }
+   }
+   
+       </style>
+   
+<main class="hero-banner">
+    <div class="breadcrumb-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Account</li>
+            </ol>
+        </nav>
+    </div>  
+</main>
+
+<body>
+    <div class="container main-container">
+        <div class="row">
+            <!-- Sidebar Navigation -->
+          
+<div class="col-lg-3 col-md-4 ultra-sidebar-container">
+    <div class="ultra-sidebar-header">
+        <h2><i class="fas fa-user-circle me-2"></i>My Account</h2>
+    </div>
+    <div class="ultra-sidebar-menu">
+        <a href="/Profile"class="ultra-active">
+            <i class="fas fa-user"></i>Account Details
+        </a>
+        <a href="/address" >
+            <i class="fas fa-map-marker-alt"></i>Address
+        </a>
+        <a href="/orders">
+            <i class="fas fa-box-open"></i>Orders
+        </a>
+        <a href="/wishlist">
+            <i class="fas fa-heart"></i>Wishlist
+        </a>
+        <a href="/cart">
+            <i class="fas fa-shopping-cart"></i>Cart
+        </a>
+        <a href="/wallet">
+            <i class="fas fa-wallet"></i>Wallet
+        </a>
+        <a href="/mycoupons">
+            <i class="fas fa-tag"></i>My Coupons
+        </a>
+        <a href="#" onclick="confirmLogout(event)" class="ultra-logout-btn">
+            <i class="fas fa-sign-out-alt me-2"></i>Logout
+        </a>
+    </div>
+</div>
+
+            
+
+            <!-- Main Content -->
+            <div class="col-lg-9 col-md-8 main-content" >
+                <div class="content-card"style="min-height: 60vh;">
+                    <h2 class="section-title"><i class="fas fa-user-edit me-2"></i>Personal Information</h2>
+                    
+                    <div class="profile-section">
+                        <!-- Left Column - Form -->
+                        <div class="profile-form">
+                            <form id="profileForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Full Name <span class="required">*</span></label>
+                                        <input name="name" type="text" value="<%= user.fullname %>" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Username <span class="required">*</span></label>
+                                        <input name="username" type="text" value="<%= user.fullname %>" placeholder="Set your Username" class="form-control" required>
+                                        <small class="form-text">Choose a unique username</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="row" >
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Email address</label>
+                                        <input type="email" value="<%= user.email %>" class="form-control" disabled>
+                                        <small class="form-text">Email cannot be changed here</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Phone Number <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">+91</span>
+                                            <input type="text" name="phone" class="form-control" 
+                                                   value="<%= user.phone %>" 
+                                                   pattern="[0-9]{10}" 
+                                                   title="Please enter a valid 10-digit phone number"
+                                                   placeholder="Enter phone number" required>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            
+                                
+                             <!-- Inside your form div, replace the current button section with this: -->
+                            <div class="button-group d-flex flex-wrap align-items-center gap-3 mt-4">
+                                <button type="submit" class="btn btn-primary flex-grow-0">
+                                    <i class="fas fa-save me-2"></i>Save Changes
+                                </button>
+    
+                                <a class="btn btn-outline-primary flex-grow-0" href="/change-email">
+                                    <i class="fas fa-envelope me-2"></i>Change Email
+                                 </a> 
+                                <a href="/forgotpassword" class="btn btn-outline-secondary flex-grow-0 forgot-password">
+                                <i class="fas fa-key me-2"></i>Change Password
+                                </a>
+                            </div>
+                         </form>
+                        </div>
+                        
+                        <!-- Right Column - Profile Picture -->
+                        <div class="profile-picture-section">
+                            <img id="profileImagePreview" 
+                                 src="<%= user.image ? user.image[0] : 'uploads/profile/profileImage-1742477923692.webp' %>" 
+                                 class="profile-picture" 
+                                 alt="Profile">
+                            
+                            <form id="profilePicForm" enctype="multipart/form-data">
+                                <input type="file" id="profileImage" accept="image/*" hidden onchange="previewImage(event)">
+                                <button type="button" onclick="document.getElementById('profileImage').click()" class="btn btn-outline-secondary mt-3">
+                                    <i class="fas fa-camera me-2"></i>Change Photo
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                      <!-- Change Password Section -->
+                
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Image Preview Function
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileImagePreview').src = e.target.result;
+                    
+                    // Upload image immediately after selection
+                    const formData = new FormData();
+                    formData.append('profileImage', file);
+
+                    fetch(`/upload-profile-pic/<%= user._id %>`, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire('Success!', 'Profile picture updated successfully.', 'success');
+                        } else {
+                            Swal.fire('Error!', data.message || 'Failed to upload image.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire('Error!', 'Something went wrong.', 'error');
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Profile Form Submission
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/update-profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Profile updated successfully',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.reload();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: result.message,
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'An unexpected error occurred. Please try again.',
+                });
+            }
+        });
+
+  
+  
+        // Logout Confirmation
+        function confirmLogout(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You will be logged out!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Logout"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/logout";
+                }
+            });
+        }
+    </script>
+
+<%- include("../../views/partials/user/footer") %>

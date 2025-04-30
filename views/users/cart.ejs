@@ -1,0 +1,583 @@
+<%- include("../../views/partials/user/header") %>
+
+    <title>Wishlist</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style/user/address.css">
+    <link rel="stylesheet" href="/style/user/address.css">
+    <link rel="stylesheet" href="/style/user/cart.css">
+      <link rel="stylesheet" href="/style/user/orders.css">
+
+      <style>
+        /* Sidebar Styles */
+
+ /* Desktop Styles */
+ .ultra-sidebar-container {
+    width: 18vw;
+    min-width: 250px;
+    background-color: #f8f9fa;
+    border-right: 2px solid #e0e0e0;
+    padding: 20px;
+    margin-left: 3vh;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ultra-sidebar-header h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ultra-sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    color: #555;
+    text-decoration: none;
+    background-color: #fff;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.ultra-sidebar-menu a:hover,
+.ultra-sidebar-menu a.ultra-active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.ultra-sidebar-menu a i {
+    font-size: 18px;
+}
+
+.ultra-sidebar-menu .ultra-logout-btn {
+    color: #dc3545;
+}
+
+.ultra-sidebar-menu .ultra-logout-btn:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Tablet Screens */
+@media (max-width: 991px) {
+    .ultra-sidebar-container {
+        width: 100%;
+        min-width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        padding: 15px;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 10px;
+    }
+
+    .ultra-sidebar-header {
+        display: none;
+    }
+
+    .ultra-sidebar-menu {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .ultra-sidebar-menu a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        padding: 8px;
+        min-width: 80px;
+        border-radius: 10px;
+    }
+
+    .ultra-sidebar-menu a i {
+        font-size: 18px;
+    }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 576px) {
+    .ultra-sidebar-menu a {
+        padding: 6px;
+        min-width: 65px;
+        font-size: 12px;
+    }
+
+    .ultra-sidebar-menu a i {
+        font-size: 16px;
+    }
+}
+
+
+        body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.main-container {
+  padding: 2rem 0;
+  max-width:90vw;
+}
+
+.hero-banner {
+  background-color: #e9f2ff;
+  padding: 1.5rem 0;
+  margin-bottom: 2rem;
+}
+
+.breadcrumb-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.breadcrumb {
+  padding: 0;
+  background-color: transparent;
+  font-size: 0.9rem;
+}
+
+.breadcrumb-item a {
+  
+  color: #4a6baf;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.breadcrumb-item a:hover {
+  color: #2c4b8b;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 1rem;
+}
+
+.sidebar-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.sidebar-menu a {
+  padding: 0.75rem 0;
+  color: #4a5568;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin-left: 6vw;
+  
+  transition: all 0.3s;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.sidebar-menu a:hover {
+  color: #3b82f6;
+  transform: translateX(5px);
+}
+
+.sidebar-menu a.active {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.sidebar-menu a i {
+  margin-right: 0.75rem;
+  width: 20px;
+  text-align: center;
+}
+
+.logout-btn {
+  color: #e53e3e !important;
+  margin-top: 1rem;
+}
+
+/* Main Content Styles */
+.content-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+.section-subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 1.5rem 0 1rem;
+}
+
+.hero-banner {
+  background-color: #e9f2ff;
+  padding: 1.5rem 0;
+  margin-bottom: 2rem;
+}
+
+.breadcrumb-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.breadcrumb {
+  padding: 0;
+  background-color: transparent;
+  font-size: 0.9rem;
+}
+
+.breadcrumb-item a {
+  
+  color: #4a6baf;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.breadcrumb-item a:hover {
+  color: #2c4b8b;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+}
+    </style>
+    
+    <body>
+      
+<body><main class="hero-banner">
+  <div class="breadcrumb-container">
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Cart</li>
+          </ol>
+      </nav>
+  </div>  
+</main>
+        <div class="container mt-4 mt-md-5">
+            <div class="row">
+                <!-- Sidebar -->
+                       <!-- Sidebar -->
+                                 
+<div class="col-lg-3 col-md-4 ultra-sidebar-container">
+  <div class="ultra-sidebar-header">
+      <h2><i class="fas fa-user-circle me-2"></i>My Account</h2>
+  </div>
+  <div class="ultra-sidebar-menu">
+      <a href="/Profile">
+          <i class="fas fa-user"></i>Account Details
+      </a>
+      <a href="/address" >
+          <i class="fas fa-map-marker-alt"></i>Address
+      </a>
+      <a href="/orders">
+          <i class="fas fa-box-open"></i>Orders
+      </a>
+      <a href="/wishlist" >
+          <i class="fas fa-heart"></i>Wishlist
+      </a>
+      <a href="/cart" class="ultra-active">
+          <i class="fas fa-shopping-cart"></i>Cart
+      </a>
+      <a href="/wallet">
+          <i class="fas fa-wallet"></i>Wallet
+      </a>
+      <a href="/mycoupons">
+          <i class="fas fa-tag"></i>My Coupons
+      </a>
+      <a href="#" onclick="confirmLogout(event)" class="ultra-logout-btn">
+          <i class="fas fa-sign-out-alt me-2"></i>Logout
+      </a>
+  </div>
+</div>
+          <!-- Main Content -->
+          <div class="col-md-9 main-content">
+             
+<div class="cart-container">
+    <div class="cart-items">
+      <% if (cartItems && cartItems.length > 0) { %>
+        <% cartItems.forEach(item => { %>
+          <div class="cart-item">
+            <img src="<%= item.product.productImage[0] %>" alt="<%= item.product.productName %>" class="item-image">
+            <div class="item-details">
+              <h3 class="item-title">
+                <%= item.product.productName %>
+              </h3>
+              
+              <p class="item-price">₹<%= Math.floor(item.product.salePrice ) %></p>
+              <span class="remove-item" data-id="<%= item.product._id %>">
+                <i class="fas fa-trash"></i> Remove
+              </span>
+            </div>
+            <div class="stock-controls">
+              <button class="stock-btn decrement">-</button>
+              <input type="number" class="stock-input" value="<%= item.quantity %>" min="1"
+                data-max-stock="<%= item.product.quantity %>" data-product-id="<%= item.product._id %>">
+              <button class="stock-btn increment">+</button>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="empty-cart"style="text-align:right" >
+          <h3>Your cart is empty</h3>
+          <p>Start adding items to your cart!</p>
+          <a href="/shop" class="btn-gold mt-2"  style="margin-right: 3vw; 
+          text-decoration: none; 
+          color: blue; 
+          font-weight: 600;
+          transition: color 0.3s ease;" 
+   onmouseover="this.style.color='green'" 
+   onmouseout="this.style.color='blue'">Continue Shopping</a>
+        </div>
+      <% } %>
+    </div>
+  
+    <% if (cartItems && cartItems.length > 0) { %>
+      <div class="order-summary">
+        <h2 class="mb-3">Order Summary</h2>
+       
+        <div class="summary-item">
+          <span>Shipping:</span>
+          <span id="shipping"><% if(shipping>0) {%>
+            ₹<%= shipping %><%}else{%>
+             <span style="color: red;"> No shipping charge </span><%}%></span>
+        </div>
+        <div class="summary-item">
+          <span>Subtotal:</span>
+          <span id="subtotal">₹<%= Math.floor(preSubtotal) %></span>
+        </div>
+        <div class="summary-item total">
+          <span>Total:</span>
+          <span id="total">₹<%=Math.floor(grandTotal) %></span><br>
+        </div>
+  
+        <a href="/checkout"><button class="btn-gold checkout-button" style="width: 100%">Proceed to Checkout</button></a>
+      </div>
+    <% } %>
+  </div>
+  
+              
+          </div>
+      </div>
+  </div>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+     
+  // Single event listener for all cart item interactions
+document.querySelector('.cart-items').addEventListener('click', function(event) {
+  // Handle quantity limits
+  let totalQuantity = 0;
+  document.querySelectorAll('.stock-input').forEach(input => {
+    totalQuantity += parseInt(input.value) || 0;
+  });
+
+  // Handle remove item functionality
+  if (event.target && (event.target.classList.contains('remove-item') || 
+                       event.target.closest('.remove-item'))) {
+    const productId = event.target.closest('.remove-item').dataset.id;
+    Swal.fire({
+      title: 'Remove Item?',
+      text: 'Are you sure you want to remove this item from your cart?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Yes, remove it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch('/removeCartItem', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire('Removed!', 'Item has been removed.', 'success')
+              .then(() => window.location.reload());
+          } else {
+            Swal.fire('Error!', data.message || 'Could not remove item.', 'error');
+          }
+        })
+        .catch(err => {
+          console.error('Remove error:', err);
+          Swal.fire('Error!', 'Something went wrong.', 'error');
+        });
+      }
+    });
+  }
+
+  // Handle increment and decrement of quantity
+  if (event.target && event.target.classList.contains('stock-btn')) {
+    const btn = event.target;
+    const input = btn.closest('.stock-controls').querySelector('.stock-input');
+    let currentValue = parseInt(input.value);
+    const maxStock = parseInt(input.dataset.maxStock);
+    const productId = input.dataset.productId;
+
+    if (btn.classList.contains('increment')) {
+      const maxAllowed = Math.min(maxStock, 5); // 5 is the maximum allowed per user
+      if (currentValue < maxAllowed) {
+        currentValue++;
+      } else {
+        Swal.fire({
+          title: maxStock < 5 ? 'Stock Limit Reached!' : 'Maximum Quantity Reached!',
+          text: maxStock < 5 ? `Only ${maxStock} items available.` : 'Only 5 items allowed per user.',
+          icon: 'info'
+        });
+        return; // Don't proceed with update
+      }
+    } else if (btn.classList.contains('decrement')) {
+      if (currentValue > 1) {
+        currentValue--;
+      } else {
+        return; // Don't proceed if already at minimum
+      }
+    }
+
+    input.value = currentValue; // Update input value
+    updateServerQuantity(productId, currentValue); // Update the server
+    updateTotals(); // Update total values
+  }
+});
+
+// Function to update quantity on the server
+function updateServerQuantity(productId, quantity) {
+  fetch('/updateCartItem', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ productId, quantity })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      console.log('Quantity updated successfully');
+    } else {
+      Swal.fire('Error', 'Could not update item quantity', 'error');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    Swal.fire('Error', 'Something went wrong. Please try again.', 'error');
+  });
+}
+
+// Function to update totals in the UI
+function updateTotals() {
+  // Calculate new subtotal
+  let subtotal = 0;
+  document.querySelectorAll('.cart-item').forEach(item => {
+    const priceText = item.querySelector('.item-price').textContent.replace('₹', '');
+    const price = parseFloat(priceText);
+    const quantity = parseInt(item.querySelector('.stock-input').value);
+    subtotal += price * quantity;
+  });
+  
+  // Update the UI
+  const subtotalElement = document.getElementById('subtotal');
+  if (subtotalElement) {
+    subtotalElement.textContent = '₹' + Math.floor(subtotal);
+  }
+  
+  // Update total (including shipping)
+  const shippingText = document.getElementById('shipping').textContent;
+  let shipping = 0;
+  if (shippingText.includes('₹')) {
+    shipping = parseFloat(shippingText.replace('₹', ''));
+  }
+  
+  const totalElement = document.getElementById('total');
+  if (totalElement) {
+    totalElement.textContent = '₹' + Math.floor(subtotal + shipping);
+  }
+}
+document.querySelector('.cart-items').addEventListener('click', function(event) {
+  // Remove item from cart
+  if (event.target && event.target.classList.contains('remove-item')) {
+    const productId = event.target.dataset.id;
+    Swal.fire({
+      title: 'Remove Item?',
+      text: 'Are you sure you want to remove this item from your cart?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Yes, remove it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch('/removeCartItem', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire('Removed!', 'Item has been removed.', 'success')
+              .then(() => window.location.reload()); // Reload to reflect changes
+          } else {
+            Swal.fire('Error!', data.message || 'Could not remove item.', 'error');
+          }
+        })
+        .catch(err => {
+          console.error('Remove error:', err);
+          Swal.fire('Error!', 'Something went wrong.', 'error');
+        });
+      }
+    });
+  }
+
+  // Handle increment and decrement of quantity (existing logic remains unchanged)
+  if (event.target && event.target.classList.contains('stock-btn')) {
+    // Increment/decrement logic
+  }
+});
+
+    </script>
+  </body>
+</html>
