@@ -638,97 +638,98 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-  // Add Funds with Razorpay - Simplified Version
-  async function initiateRazorpayPayment() {
-      const amountInput = document.getElementById('addAmount');
-      const amount = parseFloat(amountInput.value);
-     
-      if(!amount || amount < 1) {
-          Swal.fire('Error', 'Please enter a valid amount (minimum ₹1)', 'error');
-          return;
-      }
-  
-      try {
-          const razorpayBtn = document.querySelector('.razorpay-btn');
-          razorpayBtn.disabled = true;
-          razorpayBtn.textContent = 'Processing...';
-  
-          // Create order (simplified headers)
-          const res = await fetch('/wallet/create-razorpay-order', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ amount: amount*100 })
-          });
-  
-          const orderData = await res.json();
-  
-          if (!orderData.success || !orderData.order) {
-              throw new Error(orderData.message || 'Failed to create order');
-          }
-  
-          const options = {
-              key: "<%= process.env.RAZORPAY_KEY_ID %>",
-              amount: orderData.order.amount,
-              order_id: orderData.order.id,
-              currency: "INR",
-              name: "Wallet Top-up",
-              description: `Add ₹${amount } to wallet`,
-              handler: async function(response) {
-                  try {
-                      const verification = await fetch('/wallet/verify-payment', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                              razorpay_payment_id: response.razorpay_payment_id,
-                              razorpay_order_id: response.razorpay_order_id,
-                              razorpay_signature: response.razorpay_signature,
-                              amount: amount,
-                              transactionId: orderData.transactionId
-                          })
-                      });
-                      
-                      const result = await verification.json();
-                      if(result.success) {
-                          Swal.fire('Success', `₹${amount} added to wallet!`, 'success');
-                          location.reload();
-                      } else {
-                          throw new Error(result.message || 'Payment verification failed');
-                      }
-                  } catch (error) {
-                      Swal.fire('Error', error.message, 'error');
-                  } finally {
-                      razorpayBtn.disabled = false;
-                      razorpayBtn.textContent = 'Add via Razorpay';
-                  }
-              },
-              modal: {
-                  ondismiss: function() {
-                      Swal.fire('Info', 'Payment cancelled by user', 'info');
-                      razorpayBtn.disabled = false;
-                      razorpayBtn.textContent = 'Add via Razorpay';
-                  }
-              },
-              prefill: {
-                  name: "<%= user.name %>",
-                  email: "<%= user.email %>",
-                  contact: "<%= user.mobile %>"
-              }
-          };
-  
-          const rzp = new Razorpay(options);
-          rzp.open();
-  
-      } catch (error) {
-          Swal.fire('Error', error.message, 'error');
-          const razorpayBtn = document.querySelector('.razorpay-btn');
-          razorpayBtn.disabled = false;
-          razorpayBtn.textContent = 'Add via Razorpay';
-      }
-  }
+ // Add Funds with Razorpay - With Paise to Rupees Conversion
+async function initiateRazorpayPayment() {
+    const amountInput = document.getElementById('addAmount');
+    const amount = parseFloat(amountInput.value);
+    
+    if(!amount || amount < 1) {
+        Swal.fire('Error', 'Please enter a valid amount (minimum ₹1)', 'error');
+        return;
+    }
 
+    try {
+        const razorpayBtn = document.querySelector('.razorpay-btn');
+        razorpayBtn.disabled = true;
+        razorpayBtn.textContent = 'Processing...';
 
+        // Convert rupees to paise (amount * 100)
+        const amountInPaise = Math.round(amount * 100);
+
+        // Create order
+        const res = await fetch('/wallet/create-razorpay-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ amount: amountInPaise }) // Send amount in paise
+        });
+
+        const orderData = await res.json();
+
+        if (!orderData.success || !orderData.order) {
+            throw new Error(orderData.message || 'Failed to create order');
+        }
+
+        const options = {
+            key: "<%= process.env.RAZORPAY_KEY_ID %>",
+            amount: amountInPaise, // Use the paise amount here
+            order_id: orderData.order.id,
+            currency: "INR",
+            name: "Wallet Top-up",
+            description: `Add ₹${amount} to wallet`, // Display amount in rupees to user
+            handler: async function(response) {
+                try {
+                    const verification = await fetch('/wallet/verify-payment', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_signature: response.razorpay_signature,
+                            amount: amount, // Send original amount in rupees to backend
+                            transactionId: orderData.transactionId
+                        })
+                    });
+                    
+                    const result = await verification.json();
+                    if(result.success) {
+                        Swal.fire('Success', `₹${amount} added to wallet!`, 'success');
+                        location.reload();
+                    } else {
+                        throw new Error(result.message || 'Payment verification failed');
+                    }
+                } catch (error) {
+                    Swal.fire('Error', error.message, 'error');
+                } finally {
+                    razorpayBtn.disabled = false;
+                    razorpayBtn.textContent = 'Add via Razorpay';
+                }
+            },
+            modal: {
+                ondismiss: function() {
+                    Swal.fire('Info', 'Payment cancelled by user', 'info');
+                    razorpayBtn.disabled = false;
+                    razorpayBtn.textContent = 'Add via Razorpay';
+                }
+            },
+            prefill: {
+                name: "<%= user.name %>",
+                email: "<%= user.email %>",
+                contact: "<%= user.mobile %>"
+            }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+
+    } catch (error) {
+        Swal.fire('Error', error.message, 'error');
+        const razorpayBtn = document.querySelector('.razorpay-btn');
+        razorpayBtn.disabled = false;
+        razorpayBtn.textContent = 'Add via Razorpay';
+    }
+}
   // withdraw
   async function initiateWithdrawal() {
   const amountInput = document.getElementById('withdrawAmount');

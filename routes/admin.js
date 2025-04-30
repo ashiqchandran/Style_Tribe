@@ -24,15 +24,10 @@ const upload = require("../helpers/multer"); // Import multer instance
 router.get("/login",adminController.adminLogin);
 // Route to handle admin login form submission (POST request)
 router.post("/adminsignin", adminController.adminsignin);
-
-
 router.post("/dashboard",adminController.adminDashboard)
 router.get("/dashboard",adminController.adminDashboard)
-
 router.get("/pageError",adminController.pageError_404)
-
 router.get("/logout", adminController.adminLogout);
-
 router.get("/users",adminAuth, customerController.customerInfo);
 router.get("/blockCustomer",adminAuth, customerController.customerBlocked);
 router.get("/unblockCustomer",adminAuth, customerController.customerUnblocked);
@@ -66,9 +61,7 @@ router.post("/blockProduct", adminAuth, productController.blockProduct); // Bloc
 router.post("/unblockProduct", adminAuth, productController.unblockProduct); // Unblock product
 router.get("/editProduct", adminAuth, productController.getEditProduct); // Get product for editing
 router.post("/deleteImage", adminAuth, productController.deleteSingleImage); // Delete single image
-
 router.post("/deleteproduct", adminAuth, productController.deleteProduct); // Delete product
-
 router.post("/editProduct/:id", adminAuth, upload.fields([
     { name: 'image1', maxCount: 1 },
     { name: 'image2', maxCount: 1 },
@@ -77,32 +70,24 @@ router.post("/editProduct/:id", adminAuth, upload.fields([
 ]), productController.editProduct);
 //banner fetching
 router.get("/banner",adminAuth, bannerController.getBanner)
-
 // Order Management Routes
 router.get('/orders', adminAuth, orderController.getOrders);
 router.get('/orders/:id', adminAuth, orderController.getOrderDetails);
 router.post('/orders/update-status', adminAuth, orderController.updateOrderStatus);
-
 router.post('/orders/cancel',adminAuth,orderController.orderCancelled)
 router.get("/report", adminAuth, orderController.getReports);
 router.get("/csvreport", adminAuth, orderController.getCsvReports);
-
 // router.post('/approveReturn', adminAuth, orderController.authorizeReturn);
 router.post('/orders/approve-refund',adminAuth, orderController.approveRefund);
 router.post('/orders/reject-refund', orderController.rejectRefund)
-
 router.get("/transaction",adminAuth,transactionController.transactionLoad)
-
 //coupon management
 router.get("/coupon",adminAuth,couponController.loadCoupon)
 router.post("/createCoupon",adminAuth,couponController.createCoupon)
 router.get("/editCoupon",adminAuth,couponController.editCoupon)
 // router.get("/admin/deleteCoupon'", adminAuth, couponController.deleteCoupon);
 router.get('/deleteCoupon',  adminAuth,couponController.deleteCoupon);
-
 router.post('/updateCoupon', adminAuth, couponController.updateCoupon);
-
-
 // Route to handle the transaction filter request from frontend (AJAX request)
 router.post('/filterTransaction', async (req, res) => {
   try {

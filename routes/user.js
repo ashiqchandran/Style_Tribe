@@ -35,14 +35,14 @@ router.patch('/update-profile',userAuth, profileController.updateProfile);
 router.get("/contact",contactController.getContactPage);
 router.post('/contact', contactController.submitContactForm); // <--- this is important
 
-router.post("/verifyotp",userAuth, userController.loadverifyotp);
-router.post("/resend-otp",userAuth, userController.loadresendotp);
-router.get('/auth/google',userAuth, passport.authenticate('google', { scope: ['profile', 'email'] }), (req, res) => {
+router.post("/verifyotp", userController.loadverifyotp);
+router.post("/resend-otp",userController.loadresendotp);
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }), (req, res) => {
     req.session.user = req.user; // Store Google user in session
     console.log("Google User saved in session:", req.session.user); // Debugging
     res.redirect('/');
 });
-router.get('/auth/google/callback',userAuth, passport.authenticate('google', { failureRedirect: '/signup' }), (req, res) => {
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/signup' }), (req, res) => {
     req.session.user = req.user; // Store Google user in session
     console.log("Google User saved in session:", req.session.user); // Debugging
     res.redirect('/');
@@ -66,7 +66,7 @@ router.get("/newemail", userAuth,userController.loadnewpassword);
 // router.post("/newpassword", userController.loadnewpassword);
 
 router.post("/setNewPassword",userAuth,userController.changepassword)
-router.get("/shop",userAuth,userController.loadShoppingPage)
+router.get("/shop",userController.loadShoppingPage)
 router.get('/filter',userAuth, userController.filterProduct);
 
 //checkout management

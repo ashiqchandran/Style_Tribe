@@ -36,11 +36,11 @@ exports.createRazorpayOrder = async (req, res) => {
         };
         
         const order = await razorpay.orders.create(options);
-        
+        let newamount= amount/100
         // Create transaction record using your exact schema
         const transaction = new Transaction({
             userId: req.session.user._id,
-            amount: amount , // Store in rupees
+            amount: newamount , // Store in rupees
             transactionType: 'Razorpay', // Using your enum value
             status: 'pending', // As per your schema which only allows Success/Failed
             description: `Wallet top-up initiated. Order ID: ${order.id}`,

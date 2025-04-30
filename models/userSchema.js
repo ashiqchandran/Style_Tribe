@@ -90,7 +90,7 @@ const userSchema = new Schema({
         type:[String],
         // required:true
       },
-      referralCode: { type: String, required: true, unique: true },
+      referralCode: { type: String, required: false, unique: true },
      referalPoint:{
         type:Number,
         default:0
