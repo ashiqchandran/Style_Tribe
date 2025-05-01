@@ -188,7 +188,7 @@ app.use((req, res, next) => {
     next(createError(404, 'Page Not Found'));
 });
 // Server startup
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4031 ;
 app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}`);
 });
